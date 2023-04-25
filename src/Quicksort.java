@@ -1,10 +1,35 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Quicksort {
 
+    // 1d
     public static void main(String[] args) {
-        int[] test = {5, 8, 1, 4, 4, 9, 2, 3};
-        qsort(test);
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Integer> inputData = new ArrayList<>();
+
+        while (scanner.hasNextInt()) {
+            inputData.add(scanner.nextInt());
+        }
+
+        scanner.close();
+
+        int[] data = inputData.stream().mapToInt(Integer::intValue).toArray();
+
+        if (data.length < 20) {
+            System.out.println("Input: " + Arrays.toString(data));
+        }
+
+        qSort(data);
+
+        System.out.println("Output: " + Arrays.toString(data));
+
+        int min = data[data.length - 1];
+        int max = data[0];
+        double median = data.length % 2 == 0 ? (data[data.length / 2] + data[data.length / 2 - 1]) / 2.0 : data[data.length / 2];
+
+        System.out.println("Min: " + min + ", Med: " + median + ", Max: " + max);
     }
 
     // Aufgabe 1 //
@@ -12,12 +37,12 @@ public class Quicksort {
     // a //
     public static int partition(int[] data, int l, int r) {
         while (l < r) {
-            if(data[l] < data[l+1]){
+            if(data[l] > data[l+1]){
                 int temp = data[l+1];
                 data[l+1] = data[r];
                 data[r] = temp;
                 r--;
-            } else if(data[l] > data[l+1]){
+            } else if(data[l] < data[l+1]){
                 int temp = data[l+1];
                 data[l+1] = data[l];
                 data[l] = temp;
@@ -30,15 +55,16 @@ public class Quicksort {
     }
 
     // b
-    public static void qsort(int[] data, int l, int r){
-        int pivot = partition(data, l, r);
-        partition(data, l, pivot-1);
-        partition(data, pivot+1, r);
-        System.out.println(Arrays.toString(data));
+    public static void qSort(int[] data, int l, int r){
+        if (l < r) {
+            int pivot = partition(data, l, r);
+            qSort(data, l, pivot - 1);
+            qSort(data, pivot + 1, r);
+        }
     }
 
     // c
-    public static void qsort(int[] data) {
-        qsort(data, 0, data.length-1);
+    public static void qSort(int[] data) {
+        qSort(data, 0, data.length - 1);
     }
 }
