@@ -15,7 +15,10 @@ public class Quicksort {
 
         scanner.close();
 
-        int[] data = inputData.stream().mapToInt(Integer::intValue).toArray();
+        int[] data = new int[inputData.size()];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = inputData.get(i);
+        }
 
         if (data.length < 20) {
             System.out.println("Input: " + Arrays.toString(data));
